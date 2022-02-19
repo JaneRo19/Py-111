@@ -20,8 +20,9 @@ def binary_search(elem: int, arr: Sequence) -> Optional[int]:
         else:
             right_border = middle
 
-        if arr[left_border] == elem:
-            return left_border
+    if arr[left_border] == elem:
+        return left_border
+
 
 
 

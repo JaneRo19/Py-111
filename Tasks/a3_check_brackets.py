@@ -7,13 +7,12 @@ def check_brackets(brackets_row: str) -> bool:
     """
 
     counter = 0
-    for i in range(len(brackets_row)):
-        if brackets_row[0] == ")":
-            return False
+    for bracket in brackets_row:
+        if bracket == "(":
+            counter += 1
         else:
-            if brackets_row[i] == "(":
-                counter += 1
-            else:
-                counter -= 1
+            counter -= 1
+        if counter < 0:
+            return False
     return counter == 0
 

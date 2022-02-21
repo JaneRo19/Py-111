@@ -4,11 +4,12 @@ Priority Queue
 Queue priorities are from 0 to 10
 """
 from typing import Any
+from collections import defaultdict
 
 
 class PriorityQueue:
     def __init__(self):
-        ...  # todo для очереди можно использовать python dict
+        self._priority_queue = defaultdict(list)
 
     def enqueue(self, elem: Any, priority: int = 0) -> None:
         """
@@ -17,7 +18,9 @@ class PriorityQueue:
         :param elem: element to be added
         :return: Nothing
         """
-        return None
+        for key in self._priority_queue:
+            if key == priority:
+                self._priority_queue[key].append(elem)
 
     def dequeue(self) -> Any:
         """
@@ -25,7 +28,8 @@ class PriorityQueue:
 
         :return: dequeued element
         """
-        return None
+        if self._priority_queue:
+            return self._priority_queue.pop(0)
 
     def peek(self, ind: int = 0, priority: int = 0) -> Any:
         """
@@ -34,7 +38,10 @@ class PriorityQueue:
         :param ind: index of element (count from the beginning)
         :return: peeked element
         """
-        return None
+        for key, value in self._priority_queue.items():
+            if key == priority:
+                if ind < len(self._priority_queue[key]):
+                    return self._priority_queue[key][ind]
 
     def clear(self) -> None:
         """
@@ -42,4 +49,4 @@ class PriorityQueue:
 
         :return: None
         """
-        return None
+        self._priority_queue.clear()

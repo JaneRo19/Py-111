@@ -8,12 +8,9 @@ def check_brackets(brackets_row: str) -> bool:
 
     counter = 0
     for i in range(len(brackets_row)):
-        if brackets_row[0] == ")":
-            return False
+        if brackets_row[i] == "(" and brackets_row[0] != ")":
+            counter += 1
         else:
-            if brackets_row[i] == "(":
-                counter += 1
-            else:
-                counter -= 1
-    return counter == 0
+            counter -= 1
+    return True if counter == 0 else False
 

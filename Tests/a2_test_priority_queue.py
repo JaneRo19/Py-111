@@ -1,6 +1,5 @@
 import unittest
 from Tasks.a2_priority_queue import PriorityQueue
-from collections import defaultdict
 
 priority_queue = PriorityQueue()
 
@@ -61,4 +60,3 @@ class MyTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

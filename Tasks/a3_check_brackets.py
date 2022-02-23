@@ -6,4 +6,13 @@ def check_brackets(brackets_row: str) -> bool:
     :return: True if valid, False otherwise
     """
 
-    return False
+    counter = 0
+    for bracket in brackets_row:
+        if bracket == "(":
+            counter += 1
+        else:
+            counter -= 1
+        if counter < 0:
+            return False
+    return counter == 0
+

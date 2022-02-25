@@ -34,13 +34,16 @@ def sinx(x: Union[int, float]) -> float:
     :param x: x value
     :return: sin(x) value
     """
-    def get_item_n(n):
-        return ((-1) ** (n-1) * x ** (2 * n - 1)) / factorial(2 * n -1)
 
     sum_ = 0
-    for i in count(1, 1):
-        current_item = get_item_n(i)
+    top = x
+    bottom = 1
+    sign = 1
+    for i in count(3, 2):
+        current_item = sign * top / bottom
         sum_ += current_item
         if abs(current_item) < EPSILON:
             return sum_
-
+        top = top * (x ** 2)
+        bottom = bottom * i * (i - 1)
+        sign = -sign

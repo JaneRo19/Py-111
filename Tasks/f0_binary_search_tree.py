@@ -9,7 +9,16 @@ from typing import Any, Optional, Tuple
 
 class BinarySearchTree:
     def __init__(self):
-        ...
+        self.root = None
+
+    @staticmethod
+    def create_node(key, value, left=None, right=None):
+        return {
+            "key": key,
+            "value": value,
+            "left": left,
+            "right": right
+        }
 
     def insert(self, key: int, value: Any) -> None:
         """
@@ -19,8 +28,26 @@ class BinarySearchTree:
         :param value: value associated with key
         :return: None
         """
-        print(key, value)
-        return None
+
+        if self.root is None:
+            self.root = self.create_node(key, value)
+        else:
+            current_node = self.root
+            current_key = current_node["key"]
+
+            while True:
+                if key > current_key:
+                    if current_node["right"] is None:
+                        current_node["right"] = self.create_node(key, value)
+                        break
+                    else:
+                        current_node = current_node["right"]
+                else:
+                    if current_node["left"] is None:
+                        current_node["left"] = self.create_node(key, value)
+                        break
+                    else:
+                        current_node = current_node["left"]
 
     def remove(self, key: int) -> Optional[Tuple[int, Any]]:
         """

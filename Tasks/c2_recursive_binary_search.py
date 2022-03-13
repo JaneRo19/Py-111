@@ -15,19 +15,17 @@ def binary_search(elem: int, arr: Sequence, left_border=None, right_border=None)
     if right_border is None:
         right_border = len(arr) - 1
 
-    if left_border > right_border:
-        return None
+    if left_border >= right_border:
+        if arr[left_border] == elem:
+            return left_border
+        else:
+            return None
 
     middle = (left_border + right_border) // 2
 
-    if arr[middle] == elem:
-        return middle
-    elif arr[middle] < elem:
-        new_left_border = middle + 1
-        return binary_search(elem, arr, new_left_border, right_border)
-    elif arr[middle] > elem:
-        new_right_border = middle - 1
-        return binary_search(elem, arr, left_border, new_right_border)
+    if arr[middle] < elem:
+        left_border = middle + 1
+    else:
+        right_border = middle
 
-    return None
-
+    return binary_search(elem, arr, left_border, right_border)

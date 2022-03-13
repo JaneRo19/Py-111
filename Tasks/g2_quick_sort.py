@@ -22,4 +22,3 @@ def sort(container: List[int]) -> List[int]:
         return sort(left_lst) + middle_lst + sort(right_lst)
     else:
         return container
-

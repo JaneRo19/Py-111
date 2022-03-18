@@ -8,7 +8,8 @@ from typing import Any
 
 class PriorityQueue:
     def __init__(self):
-        ...  # todo для очереди можно использовать python dict
+        self.n = 11
+        self.priority_queue = {x: [] for x in range(self.n)}
 
     def enqueue(self, elem: Any, priority: int = 0) -> None:
         """
@@ -17,7 +18,8 @@ class PriorityQueue:
         :param elem: element to be added
         :return: Nothing
         """
-        return None
+
+        self.priority_queue[priority].append(elem)
 
     def dequeue(self) -> Any:
         """
@@ -25,7 +27,10 @@ class PriorityQueue:
 
         :return: dequeued element
         """
-        return None
+
+        for key, value in self.priority_queue.items():
+            if len(value) != 0:
+                return value.pop(0)
 
     def peek(self, ind: int = 0, priority: int = 0) -> Any:
         """
@@ -34,7 +39,9 @@ class PriorityQueue:
         :param ind: index of element (count from the beginning)
         :return: peeked element
         """
-        return None
+
+        if ind < len(self.priority_queue[priority]):
+            return self.priority_queue[priority][ind]
 
     def clear(self) -> None:
         """
@@ -42,4 +49,5 @@ class PriorityQueue:
 
         :return: None
         """
-        return None
+        for key, value in self.priority_queue.items():
+            value.clear()

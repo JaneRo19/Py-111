@@ -57,26 +57,67 @@ class BinarySearchTree:
         :return: deleted (key, value) pair or None
         """
         current_node, prev_node = self._find(key)
-        if current_node["key"] is not None:
+        if not current_node:
             return None
 
-        while True:
-            if key < current_node["key"]:
-                current_node["key"].remove()
-                current_node["key"] = min(current_node["right"])
-            else:
-                current_node["key"].remove()
-                current_node["key"] = max(current_node["left"])
+        if not prev_node:
+            result = (self.root["key"], self.root["value"])
+            self.root = self.remove_root()
+            return result
 
-        if current_node["right"] is None and current_node["left"] is None:
-            current_node["key"].remove()
+        result = (current_node["key"], current_node["value"])
+        self.delete_node(current_node, prev_node)
+
+        return result
+
+    def remove_root(self):
+        current_node = self.root
+        if not current_node["left"]:
+            return current_node["right"]
+        if not current_node["right"]:
+            return current_node["left"]
+
+        suc, prev = self.get_successor(current_node)
+        current_node["value"] = suc["value"]
+        self.delete_node(suc, prev)
+
+        return current_node
+
+
+    def delete_node(self, current_node, prev_node):
+        if prev_node["left"] and prev_node["left"] == current_node:
+            prev_node["left"] = self.del_node(current_node)
         else:
-            if current_node["left"] is None:
-                current_node["key"].remove()
+            prev_node["right"] = self.del_node(current_node)
 
-            elif current_node["right"] is None:
-                current_node["key"].remove()
+    def del_node(self, current_node):
+        if not current_node["left"] and not current_node["right"]:
+            return None
 
+        if not current_node["left"] or not current_node["right"]:
+            if not current_node["left"]:
+                child_node = current_node["right"]
+                current_node["right"] = None
+                return child_node
+            else:
+                child_node = current_node["left"]
+                current_node["left"] = None
+                return child_node
+
+        successor, prev_successor = self.get_successor(current_node)
+        current_node["value"] = successor["value"]
+        self.delete_node(successor, prev_successor)
+        return current_node
+
+    def get_successor(self, current_node):
+        prev = current_node
+        suc = current_node["right"]
+
+        while suc["left"] is not None:
+            prev = suc
+            suc = suc["left"]
+
+        return suc, prev
 
     def find(self, key: int) -> Optional[Any]:
 
@@ -84,24 +125,10 @@ class BinarySearchTree:
         if current_node is not None:
             return current_node["value"]
 
-        # current_node = self.root
-        # current_key = current_node["key"]
-        # while True:
-        #     if key < current_key:
-        #         if current_node["left"] is None:
-        #             raise KeyError
-        #         else:
-        #             current_node = current_node["left"]
-        #
-        #     else:
-        #         if current_node["right"] is None:
-        #             raise KeyError
-        #         else:
-        #             current_node = current_node["right"]
-        #
-        #     return current_node["value"]
-
     def _find(self, key):
+        if not self.root:
+            return None, None
+
         prev_node = None
         current_node = self.root
         while current_node["key"] is not None:
@@ -113,6 +140,10 @@ class BinarySearchTree:
                 current_node = current_node["right"]
             else:
                 current_node = current_node["left"]
+
+            if not current_node:
+                raise KeyError("Key not found")
+
         return current_node, prev_node
 
     def clear(self) -> None:
